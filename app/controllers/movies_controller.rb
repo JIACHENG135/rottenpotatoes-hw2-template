@@ -9,29 +9,10 @@ class MoviesController < ApplicationController
     @movie = Movie.find(id) # look up movie by unique ID
     # will render app/views/movies/show.<extension> by default
   end
-
   def index
-    #@movies = Movie.all
-    @all_ratings = Movie.all_ratings
-    @sort_by = params[:sort_by]
-    @ratings = params[:ratings]
-    
-    # @movies = Movie.order(params[:sort_by])
-    if @ratings and @sort_by
-      @movies = Movie.where(:rating => params[:ratings].keys).order(params[:sort_by])
-    elsif @ratings
-      @movies = Movie.where(:rating => params[:ratings].keys)
-    elsif @sort_by
-      @movies = Movie.order(params[:sort_by])
-    else
-      @movie = Movie.all
-    end
-    if !@ratings
-      @ratings = Hash.new
-    end
-    @movies = Movie.all
+    @movies = Movie.order(params[:sort_by]) 
     if params[:ratings]
-      @movies = Movie.where(:rating => params[:ratings].keys).order(params[:sort_by])
+      @movies = Movie.where(:rating => params[:ratings].keys).order(params[:sort_by]) 
     end
     @sort_column = params[:sort_by]
     @all_ratings = Movie.all_ratings
@@ -40,15 +21,6 @@ class MoviesController < ApplicationController
       @set_ratings = Hash.new
     end
   end
-  
-
-
-
-
-
-
-
-
   def new
     # default: render 'new' template
   end
